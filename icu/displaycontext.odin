@@ -1,12 +1,5 @@
 package icu
 
-DisplayContextType :: enum i32 {
-	DIALECT_HANDLING    = 0,
-	CAPITALIZATION      = 1,
-	DISPLAY_LENGTH      = 2,
-	SUBSTITUTE_HANDLING = 3,
-}
-
 DisplayContext :: enum i32 {
 	STANDARD_NAMES                           = cast(i32)DisplayContextType.DIALECT_HANDLING    << 8 + 0,
 	DIALECT_NAMES                            = cast(i32)DisplayContextType.DIALECT_HANDLING    << 8 + 1,
@@ -19,4 +12,11 @@ DisplayContext :: enum i32 {
 	LENGTH_SHORT                             = cast(i32)DisplayContextType.DISPLAY_LENGTH      << 8 + 1,
 	SUBSTITUTE                               = cast(i32)DisplayContextType.SUBSTITUTE_HANDLING << 8 + 0,
 	NO_SUBSTITUTE                            = cast(i32)DisplayContextType.SUBSTITUTE_HANDLING << 8 + 1,
+}
+
+DisplayContextType :: enum i32 {
+	DIALECT_HANDLING    = 0,
+	CAPITALIZATION      = 1,
+	DISPLAY_LENGTH      = 2,
+	SUBSTITUTE_HANDLING = 3,
 }

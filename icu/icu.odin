@@ -1,5 +1,10 @@
 package icu
 
+VERSION      :: #config(ICU_VERSION, "")
+LINK_VERSION :: "_" + VERSION when VERSION != "" else ""
+
+// FIXME: Finish idna.h, casemap.h. 
+
 // Code unused or not supported in the Windows ICU SDK has been removed.
 
 // appendable.h
@@ -18,9 +23,6 @@ package icu
 // No supported content
 
 // caniter.h
-// No supported content
-
-// casemap.h
 // No supported content
 
 // char16ptr.h
@@ -51,9 +53,6 @@ package icu
 // No supported content
 
 // icuplug.h
-// No supported content
-
-// idna.h
 // No supported content
 
 // localebuilder.h

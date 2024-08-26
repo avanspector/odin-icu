@@ -6,14 +6,9 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icu"
 }
 
-Level :: enum i32 {
-	OFF        = -1,
-	ERROR      = 0,
-	WARNING    = 3,
-	OPEN_CLOSE = 5,
-	INFO       = 7,
-	VERBOSE    = 9,
-}
+Data  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, level: Level, fmt: cstring, args: rawptr /* va_list */)
+Entry :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber)
+Exit  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, fmt: cstring, args: rawptr /* va_list */)
 
 FunctionNumber :: enum i32 {
 	FUNCTION_START   = 0,
@@ -42,17 +37,22 @@ FunctionNumber :: enum i32 {
 	UCOL_STRCOLLUTF8,
 }
 
-Entry :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber)
-Exit  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, fmt: cstring, args: rawptr /* va_list */)
-Data  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, level: Level, fmt: cstring, args: rawptr /* va_list */)
+Level :: enum i32 {
+	OFF        = -1,
+	ERROR      = 0,
+	WARNING    = 3,
+	OPEN_CLOSE = 5,
+	INFO       = 7,
+	VERBOSE    = 9,
+}
 
 @(default_calling_convention="c", link_prefix="utrace_")
 foreign libicu {
-	setLevel     :: proc(traceLevel: Level) ---
-	getLevel     :: proc() -> Level ---
-	setFunctions :: proc(_context: rawptr, e: Entry, x: Exit, d: Data) ---
-	getFunctions :: proc(_context: ^rawptr, e: ^Entry, x: ^Exit, d: ^Data) ---
-	vformat      :: proc(outBuf: [^]u8, capacity: i32, indent: i32, fmt: cstring, args: rawptr /* va_list */) -> i32 ---
 	format       :: proc(outBuf: [^]u8, capacity: i32, indent: i32, fmt: cstring, #c_vararg args: ..any) -> i32 ---
 	functionName :: proc(fnNumber: FunctionNumber) -> cstring ---
+	getFunctions :: proc(_context: ^rawptr, e: ^Entry, x: ^Exit, d: ^Data) ---
+	getLevel     :: proc() -> Level ---
+	setFunctions :: proc(_context: rawptr, e: Entry, x: Exit, d: Data) ---
+	setLevel     :: proc(traceLevel: Level) ---
+	vformat      :: proc(outBuf: [^]u8, capacity: i32, indent: i32, fmt: cstring, args: rawptr /* va_list */) -> i32 ---
 }

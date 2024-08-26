@@ -4,6 +4,7 @@ import "../icu"
 import "../icu/col"
 import "../icu/loc"
 
+import "core:log"
 import "core:testing"
 import "core:unicode/utf16"
 
@@ -18,7 +19,7 @@ test_collate_with_locale :: proc(t: ^testing.T) {
 
 	collator := col.open(loc.US, &status)
 	if icu.FAILURE(status) {
-		buf_len := loc.getDisplayName(loc.US, nil, raw_data(&display_name), len(display_name), &status)
+		loc.getDisplayName(loc.US, nil, raw_data(&display_name), len(display_name), &status)
 		str_len := utf16.decode_to_utf8(utf8_name[:], display_name[:])
 
 		testing.expectf(t, false, "Failed to create the collator for {}.\n", string(utf8_name[:str_len]))

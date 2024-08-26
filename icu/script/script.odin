@@ -222,15 +222,15 @@ ScriptUsage :: enum i32 {
 
 @(default_calling_convention="c", link_prefix="uscript_")
 foreign libicu {
+	breaksBetweenLetters :: proc(script: ScriptCode) -> Bool ---
 	getCode              :: proc(nameOrAbbrOrLocale: cstring, fillIn: [^]ScriptCode, capacity: i32, err: ^ErrorCode) -> i32 ---
 	getName              :: proc(scriptCode: ScriptCode) -> cstring ---
-	getShortName         :: proc(scriptCode: ScriptCode) -> cstring ---
-	getScript            :: proc(codepoint: Char32, err: ^ErrorCode) -> ScriptCode ---
-	hasScript            :: proc(c: Char32, sc: ScriptCode) -> Bool ---
-	getScriptExtensions  :: proc(c: Char32, scripts: [^]ScriptCode, capacity: i32, errorCode: ^ErrorCode) -> i32 ---
 	getSampleString      :: proc(script: ScriptCode, dest: [^]Char, capacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
+	getScript            :: proc(codepoint: Char32, err: ^ErrorCode) -> ScriptCode ---
+	getScriptExtensions  :: proc(c: Char32, scripts: [^]ScriptCode, capacity: i32, errorCode: ^ErrorCode) -> i32 ---
+	getShortName         :: proc(scriptCode: ScriptCode) -> cstring ---
 	getUsage             :: proc(script: ScriptCode) -> ScriptUsage ---
-	isRightToLeft        :: proc(script: ScriptCode) -> Bool ---
-	breaksBetweenLetters :: proc(script: ScriptCode) -> Bool ---
+	hasScript            :: proc(c: Char32, sc: ScriptCode) -> Bool ---
 	isCased              :: proc(script: ScriptCode) -> Bool ---
+	isRightToLeft        :: proc(script: ScriptCode) -> Bool ---
 }

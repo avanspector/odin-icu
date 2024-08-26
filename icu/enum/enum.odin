@@ -2,10 +2,12 @@ package icu_enum
 
 import icu ".."
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Char      :: icu.Char
@@ -13,7 +15,7 @@ ErrorCode :: icu.ErrorCode
 
 Enumeration :: struct{}
 
-@(default_calling_convention="c", link_prefix="uenum_")
+@(default_calling_convention="c", link_prefix="uenum_", link_suffix=LINK_VERSION)
 foreign libicu {
 	close :: proc(en: ^Enumeration) ---
 	count :: proc(en: ^Enumeration, status: ^ErrorCode) -> i32 ---

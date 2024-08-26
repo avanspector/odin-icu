@@ -3,10 +3,12 @@ package icu_loc
 import icu   ".."
 import _enum "../enum"
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Bool        :: icu.Bool
@@ -14,27 +16,27 @@ Char        :: icu.Char
 Enumeration :: _enum.Enumeration
 ErrorCode   :: icu.ErrorCode
 
-CHINESE             :: "zh"
-ENGLISH             :: "en"
-FRENCH              :: "fr"
 GERMAN              :: "de"
-ITALIAN             :: "it"
-JAPANESE            :: "ja"
-KOREAN              :: "ko"
-SIMPLIFIED_CHINESE  :: "zh_CN"
-TRADITIONAL_CHINESE :: "zh_TW"
-CANADA              :: "en_CA"
-CANADA_FRENCH       :: "fr_CA"
-CHINA               :: "zh_CN"
-PRC                 :: "zh_CN"
-FRANCE              :: "fr_FR"
 GERMANY             :: "de_DE"
-ITALY               :: "it_IT"
-JAPAN               :: "ja_JP"
-KOREA               :: "ko_KR"
-TAIWAN              :: "zh_TW"
+ENGLISH             :: "en"
+CANADA              :: "en_CA"
 UK                  :: "en_GB"
 US                  :: "en_US"
+FRENCH              :: "fr"
+CANADA_FRENCH       :: "fr_CA"
+FRANCE              :: "fr_FR"
+ITALIAN             :: "it"
+ITALY               :: "it_IT"
+JAPANESE            :: "ja"
+JAPAN               :: "ja_JP"
+KOREAN              :: "ko"
+KOREA               :: "ko_KR"
+CHINESE             :: "zh"
+CHINA               :: "zh_CN"
+PRC                 :: "zh_CN"
+SIMPLIFIED_CHINESE  :: "zh_CN"
+TAIWAN              :: "zh_TW"
+TRADITIONAL_CHINESE :: "zh_TW"
 
 LANG_CAPACITY                  :: 12
 COUNTRY_CAPACITY               :: 4
@@ -68,7 +70,7 @@ AcceptResult :: enum i32 {
 	FALLBACK = 2,
 }
 
-@(default_calling_convention="c", link_prefix="uloc_")
+@(default_calling_convention="c", link_prefix="uloc_", link_suffix=LINK_VERSION)
 foreign libicu {
 	getDefault              :: proc() -> cstring ---
 	setDefault              :: proc(localeID: cstring, status: ^ErrorCode) ---

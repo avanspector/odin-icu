@@ -3,18 +3,18 @@ package icu
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Date :: f64
 
-MILLIS_PER_SECOND :: 1000
-MILLIS_PER_MINUTE :: 60000
-MILLIS_PER_HOUR   :: 3600000
-MILLIS_PER_DAY    :: 86400000
-
-DATE_MAX :: max(f64)
+DATE_MAX :: max(Date)
 DATE_MIN :: -DATE_MAX
+
+MILLIS_PER_DAY    :: 86400000
+MILLIS_PER_HOUR   :: 3600000
+MILLIS_PER_MINUTE :: 60000
+MILLIS_PER_SECOND :: 1000
 
 ErrorCode :: enum i32 {
 	USING_FALLBACK_WARNING        = -128,
@@ -180,10 +180,10 @@ ErrorCode :: enum i32 {
 	PLUGIN_DIDNT_SET_LEVEL,
 }
 
-SUCCESS :: #force_inline proc "contextless" (code: ErrorCode) -> Bool { return code <= .ZERO_ERROR }
 FAILURE :: #force_inline proc "contextless" (code: ErrorCode) -> Bool { return code >  .ZERO_ERROR }
+SUCCESS :: #force_inline proc "contextless" (code: ErrorCode) -> Bool { return code <= .ZERO_ERROR }
 
-@(default_calling_convention="c", link_prefix="u_")
+@(default_calling_convention="c", link_prefix="u_", link_suffix=LINK_VERSION)
 foreign libicu {
 	errorName :: proc(code: ErrorCode) -> cstring ---
 }

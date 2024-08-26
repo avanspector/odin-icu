@@ -1,16 +1,21 @@
 package icu_col
 
-import icu   ".."
 import _enum "../enum"
+import icu   ".."
 import       "../iter"
 import       "../loc"
 import       "../script"
 import       "../set"
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu {
+		"system:icui18n",
+		"system:icuuc",
+	}
 }
 
 Bool           :: icu.Bool
@@ -86,41 +91,14 @@ RuleOption :: enum i32 {
 	FULL_RULES,	
 }
 
-@(default_calling_convention="c", link_prefix="ucol_")
+@(default_calling_convention="c", link_prefix="ucol_", link_suffix=LINK_VERSION)
 foreign libicu {
-	open                         :: proc(loc: cstring, status: ^ErrorCode) -> ^Collator ---
-	openRules                    :: proc(
-		rules:             [^]Char,
-		rulesLength:       i32,
-		normalizationMode: AttributeValue,
-		strength:          CollationStrength,
-		parseError:        ^ParseError,
-		status:            ^ErrorCode,
-	) -> ^Collator ---
-	getContractionsAndExpansions :: proc(coll: ^Collator, contraptions: ^Set, expansions: ^Set, addPrefixes: Bool, status: ^ErrorCode) ---
+	cloneBinary                  :: proc(coll: ^Collator, buffer: [^]u8, capacity: i32, status: ^ErrorCode) -> i32 ---
 	close                        :: proc(coll: ^Collator) ---
-	strcoll                      :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> CollationResult ---
-	strcollUTF8                  :: proc(coll: ^Collator, source: [^]u8, sourceLength: i32, target: [^]u8, targetLength: i32, status: ^ErrorCode) -> CollationResult ---
-	greater                      :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
-	greaterOrEqual               :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
-	equal                        :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
-	strcollIter                  :: proc(coll: ^Collator, sIter: CharIterator, tIter: CharIterator, status: ^ErrorCode) -> CollationResult ---
-	getStrength                  :: proc(coll: ^Collator) -> CollationStrength ---
-	setStrength                  :: proc(coll: ^Collator, strength: CollationStrength) ---
-	getReorderCodes              :: proc(coll: ^Collator, dest: [^]i32, destCapacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
-	setReorderCodes              :: proc(coll: ^Collator, reorderCodes: [^]i32, reorderCodesLength: i32, pErrorCode: ^ErrorCode) ---
-	getEquivalentReorderCodes    :: proc(reorderCode: i32, dest: [^]i32, destCapacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
-	getDisplayName               :: proc(objLoc: cstring, dispLoc: cstring, result: [^]Char, resultLength: i32, status: ^ErrorCode) -> i32 ---
-	getAvailable                 :: proc(localeIndex: i32) -> cstring ---
 	countAvailable               :: proc() -> i32 ---
-	openAvailableLocales         :: proc(status: ^ErrorCode) -> ^Enumeration ---
-	getKeywords                  :: proc(status: ^ErrorCode) -> ^Enumeration ---
-	getKeywordValues             :: proc(keyword: cstring, status: ^ErrorCode) -> ^Enumeration ---
-	getKeywordValuesForLocale    :: proc(key: cstring, locale: cstring, commonlyUsed: Bool, status: ^ErrorCode) -> ^Enumeration ---
-	getFunctionalEquivalent      :: proc(result: [^]u8, resultCapacity: i32, keyword: cstring, locale: cstring, isAvailable: ^Bool, status: ^ErrorCode) -> i32 ---
-	getRules                     :: proc(coll: ^Collator, length: ^i32) -> [^]Char ---
-	getSortKey                   :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, result: [^]u8, resultLength: i32) -> i32 ---
-	nextSortKeyPart              :: proc(coll: ^Collator, iter: ^CharIterator, state: ^[2]u32, dest: [^]u8, count: i32, status: ^ErrorCode) -> i32 ---
+	equal                        :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
+	getAttribute                 :: proc(coll: ^Collator, attr: Attribute, status: ^ErrorCode) -> AttributeValue ---
+	getAvailable                 :: proc(localeIndex: i32) -> cstring ---
 	getBound                     :: proc(
 		source:       [^]u8,
 		sourceLength: i32,
@@ -130,18 +108,45 @@ foreign libicu {
 		resultLength: i32,
 		stats:        ^ErrorCode,
 	) -> i32 ---
-	getVersion                   :: proc(coll: ^Collator, info: ^VersionInfo) ---
-	getUCAVersion                :: proc(coll: ^Collator, info: ^VersionInfo) ---
-	mergeSortkeys                :: proc(src1: [^]u8, src1Length: i32, src2: [^]u8, src2Length: i32, dest: [^]u8, destCapacity: i32) -> i32 ---
-	setAttribute                 :: proc(coll: ^Collator, attr: Attribute, value: AttributeValue, status: ^ErrorCode) ---
-	getAttribute                 :: proc(coll: ^Collator, attr: Attribute, status: ^ErrorCode) -> AttributeValue ---
-	setMaxVariable               :: proc(coll: ^Collator, group: ReorderCode, pErrorCode: ^ErrorCode) ---
-	getMaxVariable               :: proc(coll: ^Collator) -> ReorderCode ---
-	getVariableTop               :: proc(coll: ^Collator, status: ^ErrorCode) -> u32 ---
-	safeClone                    :: proc(coll: ^Collator, stackBuffer: rawptr, pBufferSize: rawptr, status: ^ErrorCode) -> ^Collator ---
-	getRulesEx                   :: proc(coll: ^Collator, delta: RuleOption, buffer: [^]Char, bufferLen: i32) -> i32 ---
+	getContractionsAndExpansions :: proc(coll: ^Collator, contraptions: ^Set, expansions: ^Set, addPrefixes: Bool, status: ^ErrorCode) ---
+	getDisplayName               :: proc(objLoc: cstring, dispLoc: cstring, result: [^]Char, resultLength: i32, status: ^ErrorCode) -> i32 ---
+	getEquivalentReorderCodes    :: proc(reorderCode: i32, dest: [^]i32, destCapacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
+	getFunctionalEquivalent      :: proc(result: [^]u8, resultCapacity: i32, keyword: cstring, locale: cstring, isAvailable: ^Bool, status: ^ErrorCode) -> i32 ---
+	getKeywordValues             :: proc(keyword: cstring, status: ^ErrorCode) -> ^Enumeration ---
+	getKeywordValuesForLocale    :: proc(key: cstring, locale: cstring, commonlyUsed: Bool, status: ^ErrorCode) -> ^Enumeration ---
+	getKeywords                  :: proc(status: ^ErrorCode) -> ^Enumeration ---
 	getLocaleByType              :: proc(coll: ^Collator, type: DataLocaleType, status: ^ErrorCode) -> cstring ---
+	getMaxVariable               :: proc(coll: ^Collator) -> ReorderCode ---
+	getReorderCodes              :: proc(coll: ^Collator, dest: [^]i32, destCapacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
+	getRules                     :: proc(coll: ^Collator, length: ^i32) -> [^]Char ---
+	getRulesEx                   :: proc(coll: ^Collator, delta: RuleOption, buffer: [^]Char, bufferLen: i32) -> i32 ---
+	getSortKey                   :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, result: [^]u8, resultLength: i32) -> i32 ---
+	getStrength                  :: proc(coll: ^Collator) -> CollationStrength ---
 	getTailoredSet               :: proc(coll: ^Collator, status: ^ErrorCode) -> ^Set ---
-	cloneBinary                  :: proc(coll: ^Collator, buffer: [^]u8, capacity: i32, status: ^ErrorCode) -> i32 ---
+	getUCAVersion                :: proc(coll: ^Collator, info: ^VersionInfo) ---
+	getVariableTop               :: proc(coll: ^Collator, status: ^ErrorCode) -> u32 ---
+	getVersion                   :: proc(coll: ^Collator, info: ^VersionInfo) ---
+	greater                      :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
+	greaterOrEqual               :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> Bool ---
+	mergeSortkeys                :: proc(src1: [^]u8, src1Length: i32, src2: [^]u8, src2Length: i32, dest: [^]u8, destCapacity: i32) -> i32 ---
+	nextSortKeyPart              :: proc(coll: ^Collator, iter: ^CharIterator, state: ^[2]u32, dest: [^]u8, count: i32, status: ^ErrorCode) -> i32 ---
+	open                         :: proc(loc: cstring, status: ^ErrorCode) -> ^Collator ---
+	openAvailableLocales         :: proc(status: ^ErrorCode) -> ^Enumeration ---
 	openBinary                   :: proc(bin: [^]u8, length: i32, base: ^Collator, status: ^ErrorCode) -> ^Collator ---
+	openRules                    :: proc(
+		rules:             [^]Char,
+		rulesLength:       i32,
+		normalizationMode: AttributeValue,
+		strength:          CollationStrength,
+		parseError:        ^ParseError,
+		status:            ^ErrorCode,
+	) -> ^Collator ---
+	safeClone                    :: proc(coll: ^Collator, stackBuffer: rawptr, pBufferSize: rawptr, status: ^ErrorCode) -> ^Collator ---
+	setAttribute                 :: proc(coll: ^Collator, attr: Attribute, value: AttributeValue, status: ^ErrorCode) ---
+	setMaxVariable               :: proc(coll: ^Collator, group: ReorderCode, pErrorCode: ^ErrorCode) ---
+	setReorderCodes              :: proc(coll: ^Collator, reorderCodes: [^]i32, reorderCodesLength: i32, pErrorCode: ^ErrorCode) ---
+	setStrength                  :: proc(coll: ^Collator, strength: CollationStrength) ---
+	strcoll                      :: proc(coll: ^Collator, source: [^]Char, sourceLength: i32, target: [^]Char, targetLength: i32) -> CollationResult ---
+	strcollIter                  :: proc(coll: ^Collator, sIter: CharIterator, tIter: CharIterator, status: ^ErrorCode) -> CollationResult ---
+	strcollUTF8                  :: proc(coll: ^Collator, source: [^]u8, sourceLength: i32, target: [^]u8, targetLength: i32, status: ^ErrorCode) -> CollationResult ---
 }

@@ -3,10 +3,12 @@ package icu_curr
 import icu   ".."
 import _enum "../enum"
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Bool        :: icu.Bool
@@ -36,7 +38,7 @@ CurrencyType :: enum i32 {
 
 RegistryKey :: rawptr
 
-@(default_calling_convention="c", link_prefix="ucurr_")
+@(default_calling_convention="c", link_prefix="ucurr_", link_suffix=LINK_VERSION)
 foreign libicu {
 	register                         :: proc(isoCode: [^]Char, locale: cstring, status: ^ErrorCode) -> RegistryKey ---
 	unregister                       :: proc(key: RegistryKey, status: ^ErrorCode) -> Bool ---

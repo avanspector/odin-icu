@@ -2,10 +2,12 @@ package icu_iter
 
 import icu ".."
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Bool      :: icu.Bool
@@ -50,7 +52,7 @@ CharIteratorReserved    :: #type proc "c" (iter: ^CharIterator, something: i32) 
 CharIteratorGetState    :: #type proc "c" (iter: ^CharIterator) -> u32
 CharIteratorSetState    :: #type proc "c" (iter: ^CharIterator, state: u32, pErrorCode: ^ErrorCode)
 
-@(default_calling_convention="c", link_prefix="uiter_")
+@(default_calling_convention="c", link_prefix="uiter_", link_suffix=LINK_VERSION)
 foreign libicu {
 	current32  :: proc(iter: ^CharIterator) -> Char32 ---
 	next32     :: proc(iter: ^CharIterator) -> Char32 ---

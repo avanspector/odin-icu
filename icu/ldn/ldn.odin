@@ -3,10 +3,12 @@ package icu_ldn
 import icu ".."
 import     "../script"
 
+LINK_VERSION :: icu.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
 Char               :: icu.Char
@@ -22,7 +24,7 @@ DialectHandling :: enum i32 {
 	DIALECT_NAMES,
 }
 
-@(default_calling_convention="c", link_prefix="uldn_")
+@(default_calling_convention="c", link_prefix="uldn_", link_suffix=LINK_VERSION)
 foreign libicu {
 	open                  :: proc(locale: cstring, dialectHandling: DialectHandling, pErrorCode: ^ErrorCode) -> ^LocaleDisplayNames ---
 	close                 :: proc(ldn: ^LocaleDisplayNames) ---
