@@ -1,8 +1,8 @@
 package icu_iter
 
-import icu ".."
+import u ".."
 
-LINK_VERSION :: icu.LINK_VERSION
+LINK_VERSION :: u.LINK_VERSION
 
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
@@ -10,17 +10,13 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Bool      :: icu.Bool
-Char      :: icu.Char
-Char32    :: icu.Char32
-ErrorCode :: icu.ErrorCode
+Bool      :: u.Bool
+Char      :: u.Char
+Char32    :: u.Char32
+ErrorCode :: u.ErrorCode
 
-UNKNOWN_INDEX :: -2
 NO_STATE      :: 0xffffffff
-
-CharIteratorOrigin :: enum i32 {
-	START, CURRENT, LIMIT, ZERO, LENGTH,
-}
+UNKNOWN_INDEX :: -2
 
 CharIterator :: struct {
 	_context:      rawptr,
@@ -52,12 +48,16 @@ CharIteratorReserved    :: #type proc "c" (iter: ^CharIterator, something: i32) 
 CharIteratorGetState    :: #type proc "c" (iter: ^CharIterator) -> u32
 CharIteratorSetState    :: #type proc "c" (iter: ^CharIterator, state: u32, pErrorCode: ^ErrorCode)
 
+CharIteratorOrigin :: enum i32 {
+	START, CURRENT, LIMIT, ZERO, LENGTH,
+}
+
 @(default_calling_convention="c", link_prefix="uiter_", link_suffix=LINK_VERSION)
 foreign libicu {
 	current32  :: proc(iter: ^CharIterator) -> Char32 ---
+	getState   :: proc(iter: ^CharIterator) -> u32 ---
 	next32     :: proc(iter: ^CharIterator) -> Char32 ---
 	previous32 :: proc(iter: ^CharIterator) -> Char32 ---
-	getState   :: proc(iter: ^CharIterator) -> u32 ---
 	setState   :: proc(iter: ^CharIterator, state: u32, pErrorCode: ^ErrorCode) ---
 	setString  :: proc(iter: ^CharIterator, s: [^]Char, length: i32) ---
 	setUTF16BE :: proc(iter: ^CharIterator, s: [^]u8, length: i32) ---

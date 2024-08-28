@@ -1,12 +1,22 @@
 package icu_trace
 
+import u ".."
+
+LINK_VERSION :: u.LINK_VERSION
+
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
-Data  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, level: Level, fmt: cstring, args: rawptr /* va_list */)
+Data :: #type proc "c" (
+	_context: rawptr,
+	fnNumber: FunctionNumber,
+	level:    Level,
+	fmt:      cstring,
+	args:     rawptr /* va_list */,
+)
 Entry :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber)
 Exit  :: #type proc "c" (_context: rawptr, fnNumber: FunctionNumber, fmt: cstring, args: rawptr /* va_list */)
 
@@ -46,7 +56,7 @@ Level :: enum i32 {
 	VERBOSE    = 9,
 }
 
-@(default_calling_convention="c", link_prefix="utrace_")
+@(default_calling_convention="c", link_prefix="utrace_", link_suffix=LINK_VERSION)
 foreign libicu {
 	format       :: proc(outBuf: [^]u8, capacity: i32, indent: i32, fmt: cstring, #c_vararg args: ..any) -> i32 ---
 	functionName :: proc(fnNumber: FunctionNumber) -> cstring ---
@@ -54,5 +64,11 @@ foreign libicu {
 	getLevel     :: proc() -> Level ---
 	setFunctions :: proc(_context: rawptr, e: Entry, x: Exit, d: Data) ---
 	setLevel     :: proc(traceLevel: Level) ---
-	vformat      :: proc(outBuf: [^]u8, capacity: i32, indent: i32, fmt: cstring, args: rawptr /* va_list */) -> i32 ---
+	vformat      :: proc(
+		outBuf:   [^]u8,
+		capacity: i32,
+		indent:   i32,
+		fmt:      cstring,
+		args:     rawptr /* va_list */,
+	) -> i32 ---
 }

@@ -1,8 +1,8 @@
 package icu_set
 
-import icu ".."
+import u ".."
 
-LINK_VERSION :: icu.LINK_VERSION
+LINK_VERSION :: u.LINK_VERSION
 
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"

@@ -6,8 +6,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Date :: f64
-
 DATE_MAX :: max(Date)
 DATE_MIN :: -DATE_MAX
 
@@ -15,6 +13,8 @@ MILLIS_PER_DAY    :: 86400000
 MILLIS_PER_HOUR   :: 3600000
 MILLIS_PER_MINUTE :: 60000
 MILLIS_PER_SECOND :: 1000
+
+Date :: f64
 
 ErrorCode :: enum i32 {
 	USING_FALLBACK_WARNING        = -128,

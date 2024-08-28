@@ -1,17 +1,19 @@
 package icu_script
 
-import icu ".."
+import u ".."
+
+LINK_VERSION :: u.LINK_VERSION
 
 when ODIN_OS == .Windows {
 	foreign import libicu "system:icu.lib"
 } else {
-	foreign import libicu "system:icu"
+	foreign import libicu "system:icuuc"
 }
 
-Bool      :: icu.Bool
-Char      :: icu.Char
-Char32    :: icu.Char32
-ErrorCode :: icu.ErrorCode
+Bool      :: u.Bool
+Char      :: u.Char
+Char32    :: u.Char32
+ErrorCode :: u.ErrorCode
 
 ScriptCode :: enum i32 {
 	INVALID_CODE                 = -1,
@@ -220,14 +222,29 @@ ScriptUsage :: enum i32 {
 	RECOMMENDED,
 }
 
-@(default_calling_convention="c", link_prefix="uscript_")
+@(default_calling_convention="c", link_prefix="uscript_", link_suffix=LINK_VERSION)
 foreign libicu {
 	breaksBetweenLetters :: proc(script: ScriptCode) -> Bool ---
-	getCode              :: proc(nameOrAbbrOrLocale: cstring, fillIn: [^]ScriptCode, capacity: i32, err: ^ErrorCode) -> i32 ---
+	getCode              :: proc(
+		nameOrAbbrOrLocale: cstring,
+		fillIn:             [^]ScriptCode,
+		capacity:           i32,
+		err:                ^ErrorCode,
+	) -> i32 ---
 	getName              :: proc(scriptCode: ScriptCode) -> cstring ---
-	getSampleString      :: proc(script: ScriptCode, dest: [^]Char, capacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
+	getSampleString      :: proc(
+		script:     ScriptCode,
+		dest:       [^]Char,
+		capacity:   i32,
+		pErrorCode: ^ErrorCode,
+	) -> i32 ---
 	getScript            :: proc(codepoint: Char32, err: ^ErrorCode) -> ScriptCode ---
-	getScriptExtensions  :: proc(c: Char32, scripts: [^]ScriptCode, capacity: i32, errorCode: ^ErrorCode) -> i32 ---
+	getScriptExtensions  :: proc(
+		c:         Char32,
+		scripts:   [^]ScriptCode,
+		capacity:  i32,
+		errorCode: ^ErrorCode,
+	) -> i32 ---
 	getShortName         :: proc(scriptCode: ScriptCode) -> cstring ---
 	getUsage             :: proc(script: ScriptCode) -> ScriptUsage ---
 	hasScript            :: proc(c: Char32, sc: ScriptCode) -> Bool ---
