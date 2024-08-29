@@ -1,7 +1,12 @@
 package icu
 
-VERSION      :: #config(ICU_VERSION, "")
-LINK_VERSION :: "_" + VERSION when VERSION != "" else ""
+VERSION :: #config(ICU_VERSION, "")
+
+when VERSION != "" {
+	LINK_VERSION :: VERSION when VERSION[0] == '_' else "_" + VERSION
+} else {
+	LINK_VERSION :: ""
+}
 
 /*
 	NOTE: Code unused or not supported in the Windows ICU SDK has been removed:
