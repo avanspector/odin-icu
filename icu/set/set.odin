@@ -10,7 +10,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Bool      :: u.Bool
 Char      :: u.Char
 Char32    :: u.Char32
 ErrorCode :: u.ErrorCode
@@ -72,14 +71,14 @@ foreign libicu {
 	compact                 :: proc(set: ^Set) ---
 	complement              :: proc(set: ^Set) ---
 	complementAll           :: proc(set: ^Set, complement: ^Set) ---
-	contains                :: proc(set: ^Set, c: Char32) -> Bool ---
-	containsAll             :: proc(set1: ^Set, set2: ^Set) -> Bool ---
-	containsAllCodePoints   :: proc(set: ^Set, str: [^]Char, strLen: i32) -> Bool ---
-	containsNone            :: proc(set1: ^Set, set2: ^Set) -> Bool ---
-	containsRange           :: proc(set: ^Set, start: Char32, end: Char32) -> Bool ---
-	containsSome            :: proc(set1: ^Set, set2: ^Set) -> Bool ---
-	containsString          :: proc(set: ^Set, str: [^]Char, strLen: i32) -> Bool ---
-	equals                  :: proc(set1: ^Set, set2: ^Set) -> Bool ---
+	contains                :: proc(set: ^Set, c: Char32) -> bool ---
+	containsAll             :: proc(set1: ^Set, set2: ^Set) -> bool ---
+	containsAllCodePoints   :: proc(set: ^Set, str: [^]Char, strLen: i32) -> bool ---
+	containsNone            :: proc(set1: ^Set, set2: ^Set) -> bool ---
+	containsRange           :: proc(set: ^Set, start: Char32, end: Char32) -> bool ---
+	containsSome            :: proc(set1: ^Set, set2: ^Set) -> bool ---
+	containsString          :: proc(set: ^Set, str: [^]Char, strLen: i32) -> bool ---
+	equals                  :: proc(set1: ^Set, set2: ^Set) -> bool ---
 	freeze                  :: proc(set: ^Set) ---
 	getItem                 :: proc(
 		set:         ^Set,
@@ -96,12 +95,12 @@ foreign libicu {
 		rangeIndex:  i32,
 		pStart:      [^]Char32,
 		pEnd:        [^]Char32,
-	) -> Bool ---
+	) -> bool ---
 	getSerializedRangeCount :: proc(#by_ptr set: SerializedSet) -> i32 ---
-	getSerializedSet        :: proc(fillSet: ^SerializedSet, src: [^]u16, srcLength: i32) -> Bool ---
+	getSerializedSet        :: proc(fillSet: ^SerializedSet, src: [^]u16, srcLength: i32) -> bool ---
 	indexOf                 :: proc(set: ^Set, c: Char32) -> i32 ---
-	isEmpty                 :: proc(set: ^Set) -> Bool ---
-	isFrozen                :: proc(set: ^Set) -> Bool ---
+	isEmpty                 :: proc(set: ^Set) -> bool ---
+	isFrozen                :: proc(set: ^Set) -> bool ---
 	open                    :: proc(start: Char32, end: Char32) -> ^Set ---
 	openEmpty               :: proc() -> ^Set ---
 	openPattern             :: proc(pattern: [^]Char, patternLength: i32, ec: ^ErrorCode) -> ^Set ---
@@ -116,11 +115,11 @@ foreign libicu {
 	removeAllStrings        :: proc(set: ^Set) ---
 	removeRange             :: proc(set: ^Set, start: Char32, end: Char32) ---
 	removeString            :: proc(set: ^Set, str: [^]Char, strLen: i32) ---
-	resemblesPattern        :: proc(pattern: [^]Char, patternLength: i32, pos: i32) -> Bool ---
+	resemblesPattern        :: proc(pattern: [^]Char, patternLength: i32, pos: i32) -> bool ---
 	retain                  :: proc(set: ^Set, start: Char32, end: Char32) ---
 	retainAll               :: proc(set: ^Set, retain: ^Set) ---
 	serialize               :: proc(set: ^Set, dest: [^]u16, destCapacity: i32, pErrorCode: ^ErrorCode) -> i32 ---
-	serializedContains      :: proc(#by_ptr set: SerializedSet, c: Char32) -> Bool ---
+	serializedContains      :: proc(#by_ptr set: SerializedSet, c: Char32) -> bool ---
 	set                     :: proc(set: ^Set, start: Char32, end: Char32) ---
 	setSerializedToOne      :: proc(fillSet: ^SerializedSet, c: Char32) ---
 	size                    :: proc(set: ^Set) -> i32 ---
@@ -132,7 +131,7 @@ foreign libicu {
 		set:               ^Set,
 		result:            [^]Char,
 		resultCapacity:    i32,
-		escapeUnprintable: Bool,
+		escapeUnprintable: bool,
 		ec:                ^ErrorCode,
 	) -> i32 ---
 }

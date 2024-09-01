@@ -11,7 +11,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Bool        :: u.Bool
 Char        :: u.Char
 Enumeration :: uenum.Enumeration
 ErrorCode   :: u.ErrorCode
@@ -203,7 +202,7 @@ foreign libicu {
 		variantCapacity: i32,
 		err:             ^ErrorCode,
 	) -> i32 ---
-	isRightToLeft           :: proc(locale: cstring) -> Bool ---
+	isRightToLeft           :: proc(locale: cstring) -> bool ---
 	minimizeSubtags         :: proc(
 		localeID:                  cstring,
 		minimizedLocaleID:         [^]u8,
@@ -223,7 +222,7 @@ foreign libicu {
 		localeID:        cstring,
 		langtag:         [^]u8,
 		langtagCapacity: i32,
-		strict:          Bool,
+		strict:          bool,
 		err:             ^ErrorCode,
 	) -> i32 ---
 	toLegacyKey             :: proc(keyword: cstring) -> cstring ---

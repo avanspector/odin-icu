@@ -388,7 +388,7 @@ CharDirection :: enum i32 {
 	POP_DIRECTIONAL_ISOLATE    = 22,
 }
 
-CharEnumTypeRange :: #type proc "c" (_context: rawptr, start: Char32, limit: Char32, type: CharCategory) -> Bool
+CharEnumTypeRange :: #type proc "c" (_context: rawptr, start: Char32, limit: Char32, type: CharCategory) -> bool
 
 CharNameChoice :: enum i32 {
 	UNICODE_CHAR_NAME,
@@ -402,7 +402,7 @@ EnumCharNamesFn :: #type proc "c" (
 	nameChoice: CharNameChoice,
 	name:       cstring,
 	length:     i32,
-) -> Bool
+) -> bool
 
 GC :: enum i32 {
 	CN = cast(i32)CharCategory.GENERAL_OTHER_TYPES,
@@ -600,34 +600,34 @@ foreign libicu {
 	getPropertyValueName   :: proc(property: Property, value: i32, nameChoice: PropertyNameChoice) -> cstring ---
 	getUnicodeVersion      :: proc(versionArray: ^VersionInfo) ---
 	hasBinaryProperty      :: proc(c: Char32, which: Property) ---
-	isIDIgnorable          :: proc(c: Char32) -> Bool ---
-	isIDPart               :: proc(c: Char32) -> Bool ---
-	isIDStart              :: proc(c: Char32) -> Bool ---
-	isISOControl           :: proc(c: Char32) -> Bool ---
-	isJavaIDPart           :: proc(c: Char32) -> Bool ---
-	isJavaIDStart          :: proc(c: Char32) -> Bool ---
-	isJavaSpaceChar        :: proc(c: Char32) -> Bool ---
-	isMirrored             :: proc(c: Char32) -> Bool ---
-	isUAlphabetic          :: proc(c: Char32) -> Bool ---
-	isULowercase           :: proc(c: Char32) -> Bool ---
-	isUUppercase           :: proc(c: Char32) -> Bool ---
-	isUWhiteSpace          :: proc(c: Char32) -> Bool ---
-	isWhitespace           :: proc(c: Char32) -> Bool ---
-	isalnum                :: proc(c: Char32) -> Bool ---
-	isalpha                :: proc(c: Char32) -> Bool ---
-	isbase                 :: proc(c: Char32) -> Bool ---
-	isblank                :: proc(c: Char32) -> Bool ---
-	iscntrl                :: proc(c: Char32) -> Bool ---
-	isdefined              :: proc(c: Char32) -> Bool ---
-	isdigit                :: proc(c: Char32) -> Bool ---
-	isgraph                :: proc(c: Char32) -> Bool ---
-	islower                :: proc(c: Char32) -> Bool ---
-	isprint                :: proc(c: Char32) -> Bool ---
-	ispunct                :: proc(c: Char32) -> Bool ---
-	isspace                :: proc(c: Char32) -> Bool ---
-	istitle                :: proc(c: Char32) -> Bool ---
-	isupper                :: proc(c: Char32) -> Bool ---
-	isxdigit               :: proc(c: Char32) -> Bool ---
+	isIDIgnorable          :: proc(c: Char32) -> bool ---
+	isIDPart               :: proc(c: Char32) -> bool ---
+	isIDStart              :: proc(c: Char32) -> bool ---
+	isISOControl           :: proc(c: Char32) -> bool ---
+	isJavaIDPart           :: proc(c: Char32) -> bool ---
+	isJavaIDStart          :: proc(c: Char32) -> bool ---
+	isJavaSpaceChar        :: proc(c: Char32) -> bool ---
+	isMirrored             :: proc(c: Char32) -> bool ---
+	isUAlphabetic          :: proc(c: Char32) -> bool ---
+	isULowercase           :: proc(c: Char32) -> bool ---
+	isUUppercase           :: proc(c: Char32) -> bool ---
+	isUWhiteSpace          :: proc(c: Char32) -> bool ---
+	isWhitespace           :: proc(c: Char32) -> bool ---
+	isalnum                :: proc(c: Char32) -> bool ---
+	isalpha                :: proc(c: Char32) -> bool ---
+	isbase                 :: proc(c: Char32) -> bool ---
+	isblank                :: proc(c: Char32) -> bool ---
+	iscntrl                :: proc(c: Char32) -> bool ---
+	isdefined              :: proc(c: Char32) -> bool ---
+	isdigit                :: proc(c: Char32) -> bool ---
+	isgraph                :: proc(c: Char32) -> bool ---
+	islower                :: proc(c: Char32) -> bool ---
+	isprint                :: proc(c: Char32) -> bool ---
+	ispunct                :: proc(c: Char32) -> bool ---
+	isspace                :: proc(c: Char32) -> bool ---
+	istitle                :: proc(c: Char32) -> bool ---
+	isupper                :: proc(c: Char32) -> bool ---
+	isxdigit               :: proc(c: Char32) -> bool ---
 	tolower                :: proc(c: Char32) -> Char32 ---
 	totitle                :: proc(c: Char32) -> Char32 ---
 	toupper                :: proc(c: Char32) -> Char32 ---

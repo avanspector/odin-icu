@@ -180,8 +180,8 @@ ErrorCode :: enum i32 {
 	PLUGIN_DIDNT_SET_LEVEL,
 }
 
-FAILURE :: #force_inline proc "contextless" (code: ErrorCode) -> Bool { return code >  .ZERO_ERROR }
-SUCCESS :: #force_inline proc "contextless" (code: ErrorCode) -> Bool { return code <= .ZERO_ERROR }
+FAILURE :: #force_inline proc "contextless" (code: ErrorCode) -> bool { return code >  .ZERO_ERROR }
+SUCCESS :: #force_inline proc "contextless" (code: ErrorCode) -> bool { return code <= .ZERO_ERROR }
 
 @(default_calling_convention="c", link_prefix="u_", link_suffix=LINK_VERSION)
 foreign libicu {

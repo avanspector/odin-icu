@@ -10,7 +10,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Bool      :: u.Bool
 Char      :: u.Char
 Char32    :: u.Char32
 ErrorCode :: u.ErrorCode
@@ -39,8 +38,8 @@ CharIterator :: struct {
 
 CharIteratorGetIndex    :: #type proc "c" (iter: ^CharIterator, origin: CharIteratorOrigin) -> i32
 CharIteratorMove        :: #type proc "c" (iter: ^CharIterator, delta: i32, origin: CharIteratorOrigin) -> i32
-CharIteratorHasNext     :: #type proc "c" (iter: ^CharIterator) -> Bool
-CharIteratorHasPrevious :: #type proc "c" (iter: ^CharIterator) -> Bool
+CharIteratorHasNext     :: #type proc "c" (iter: ^CharIterator) -> bool
+CharIteratorHasPrevious :: #type proc "c" (iter: ^CharIterator) -> bool
 CharIteratorCurrent     :: #type proc "c" (iter: ^CharIterator) -> Char32
 CharIteratorNext        :: #type proc "c" (iter: ^CharIterator) -> Char32
 CharIteratorPrevious    :: #type proc "c" (iter: ^CharIterator) -> Char32

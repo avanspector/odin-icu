@@ -47,3 +47,9 @@ test_print_locales :: proc(t: ^testing.T) {
 		}
 	}
 }
+
+@(test)
+test_bool_procs :: proc(t: ^testing.T) {
+	testing.expect(t, u.islower('t'))
+	testing.expect(t, u.isupper('T'))
+}

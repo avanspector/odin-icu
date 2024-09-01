@@ -15,7 +15,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icui18n"
 }
 
-Bool           :: u.Bool
 Char           :: u.Char
 CharIterator   :: uiter.CharIterator
 DataLocaleType :: uloc.DataLocaleType
@@ -104,7 +103,7 @@ foreign libicu {
 		sourceLength: i32,
 		target:       [^]Char,
 		targetLength: i32,
-	) -> Bool ---
+	) -> bool ---
 	getAttribute                 :: proc(
 		coll:   ^Collator,
 		attr:   Attribute,
@@ -124,7 +123,7 @@ foreign libicu {
 		coll:         ^Collator,
 		contraptions: ^Set,
 		expansions:   ^Set,
-		addPrefixes:  Bool,
+		addPrefixes:  bool,
 		status:       ^ErrorCode,
 	) ---
 	getDisplayName               :: proc(
@@ -145,14 +144,14 @@ foreign libicu {
 		resultCapacity: i32,
 		keyword:        cstring,
 		locale:         cstring,
-		isAvailable:    ^Bool,
+		isAvailable:    ^bool,
 		status:         ^ErrorCode,
 	) -> i32 ---
 	getKeywordValues             :: proc(keyword: cstring, status: ^ErrorCode) -> ^Enumeration ---
 	getKeywordValuesForLocale    :: proc(
 		key:          cstring,
 		locale:       cstring,
-		commonlyUsed: Bool,
+		commonlyUsed: bool,
 		status:       ^ErrorCode,
 	) -> ^Enumeration ---
 	getKeywords                  :: proc(status: ^ErrorCode) -> ^Enumeration ---
@@ -189,14 +188,14 @@ foreign libicu {
 		sourceLength: i32,
 		target:       [^]Char,
 		targetLength: i32,
-	) -> Bool ---
+	) -> bool ---
 	greaterOrEqual               :: proc(
 		coll:         ^Collator,
 		source:       [^]Char,
 		sourceLength: i32,
 		target:       [^]Char,
 		targetLength: i32,
-	) -> Bool ---
+	) -> bool ---
 	mergeSortkeys                :: proc(
 		src1:         [^]u8,
 		src1Length:   i32,

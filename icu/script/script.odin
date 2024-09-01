@@ -10,7 +10,6 @@ when ODIN_OS == .Windows {
 	foreign import libicu "system:icuuc"
 }
 
-Bool      :: u.Bool
 Char      :: u.Char
 Char32    :: u.Char32
 ErrorCode :: u.ErrorCode
@@ -224,7 +223,7 @@ ScriptUsage :: enum i32 {
 
 @(default_calling_convention="c", link_prefix="uscript_", link_suffix=LINK_VERSION)
 foreign libicu {
-	breaksBetweenLetters :: proc(script: ScriptCode) -> Bool ---
+	breaksBetweenLetters :: proc(script: ScriptCode) -> bool ---
 	getCode              :: proc(
 		nameOrAbbrOrLocale: cstring,
 		fillIn:             [^]ScriptCode,
@@ -247,7 +246,7 @@ foreign libicu {
 	) -> i32 ---
 	getShortName         :: proc(scriptCode: ScriptCode) -> cstring ---
 	getUsage             :: proc(script: ScriptCode) -> ScriptUsage ---
-	hasScript            :: proc(c: Char32, sc: ScriptCode) -> Bool ---
-	isCased              :: proc(script: ScriptCode) -> Bool ---
-	isRightToLeft        :: proc(script: ScriptCode) -> Bool ---
+	hasScript            :: proc(c: Char32, sc: ScriptCode) -> bool ---
+	isCased              :: proc(script: ScriptCode) -> bool ---
+	isRightToLeft        :: proc(script: ScriptCode) -> bool ---
 }
